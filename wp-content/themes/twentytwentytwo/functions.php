@@ -31,6 +31,7 @@ if ( ! function_exists( 'twentytwentytwo_support' ) ) :
 
 endif;
 
+
 add_action( 'after_setup_theme', 'twentytwentytwo_support' );
 
 if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
@@ -149,3 +150,61 @@ add_action( 'wp_head', 'twentytwentytwo_preload_webfonts' );
 
 // Add block patterns
 require get_template_directory() . '/inc/block-patterns.php';
+
+/*
+* Custom Proizvodi
+*/
+ 
+function custom_post_type() {
+ 
+
+		$labels = array(
+			'name'                => _x( 'Proizvodi', 'Post Type General Name', 'twentytwenty' ),
+			'singular_name'       => _x( 'Proizvod', 'Post Type Singular Name', 'twentytwenty' ),
+			'menu_name'           => __( 'Proizvodi', 'twentytwenty' ),
+			'parent_item_colon'   => __( 'Parent Proizvod', 'twentytwenty' ),
+			'all_items'           => __( 'Svi Proizvodi', 'twentytwenty' ),
+			'view_item'           => __( 'Pregledaj Proizvod', 'twentytwenty' ),
+			'add_new_item'        => __( 'Dodaj Novi Proizvod', 'twentytwenty' ),
+			'add_new'             => __( 'Dodaj Novi', 'twentytwenty' ),
+			'edit_item'           => __( 'Uredi Proizvod', 'twentytwenty' ),
+			'update_item'         => __( 'Dopuni Proizvod', 'twentytwenty' ),
+			'search_items'        => __( 'Pretraži Proizvod', 'twentytwenty' ),
+			'not_found'           => __( 'Nije Pronadjen', 'twentytwenty' ),
+			'not_found_in_trash'  => __( 'Not found in Trash', 'twentytwenty' ),
+		);
+		 
+		$args = array(
+			'label'               => __( 'Proizvodi', 'twentytwenty' ),
+			'description'         => __( 'Proizvod news and reviews', 'twentytwenty' ),
+			'labels'              => $labels,
+
+			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+			'taxonomies'          => array( 'genres' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'menu_position'       => 5,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'capability_type'     => 'post',
+			'show_in_rest' => true,
+			'taxonomies'          => array( 'category' ),
+	 
+		);
+		 
+		register_post_type( 'Proizvodi', $args );
+	 
+	}
+	 
+	/* Hook into the 'init' action so that the function
+	* Containing our post type registration is not 
+	* unnecessarily executed. 
+	*/
+	 
+	add_action( 'init', 'custom_post_type', 0 );
